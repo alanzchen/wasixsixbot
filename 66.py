@@ -12,11 +12,14 @@ bot = telepot.async.Bot('217297401:AAHhhGRycynO7MqAc4WcKkCnoc3yFNNO-CA')
 loop = asyncio.get_event_loop()
 lifecount = 1
 
-def constructmsg(msgtext, lifecount):
+def constructmsg(msgtext):
     if msgtext == "/+1se":
-        print("Lifecount:" + str(lifecount))
+        global lifecount
         lifecount += 1
+        print("Lifecount:" + str(lifecount))
         return "续费成功！感谢为 Success 贡献 1 成功值！现在，Success 已经为 LGU 创造 " + str(lifecount * 66) + " 家创业公司！"
+    elif msgtext == "/count":
+        return "总共给 Success 贡献了 " + str(lifecount) + " 成功值！感谢广大 Se 粉！"
     else:
         words = pseg.cut(msgtext)
         reply = ""
@@ -35,7 +38,7 @@ async def handle(msg):
     print (content_type, chat_type, chat_id)
     if content_type == 'text':
         print(msg['text'])
-        reply = constructmsg(msg['text'], lifecount)
+        reply = constructmsg(msg['text'])
         await bot.sendMessage(chat_id, reply)
     else:
         reply = "蛤？"
